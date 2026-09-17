@@ -113,6 +113,7 @@ async def add_musor_drop_ad(request, call_next):
         return response
     body = b"".join([chunk async for chunk in response.body_iterator]).decode("utf-8")
     ad = "<aside class='fixed bottom-5 left-4 z-20 hidden w-52 rounded-2xl border border-emerald-700 bg-gradient-to-br from-emerald-950 to-slate-900 p-4 text-white shadow-xl xl:block'><span class='text-[10px] uppercase tracking-widest text-emerald-400'>Реклама</span><h2 class='mt-2 text-lg font-bold'>Musor Drop</h2><p class='mt-1 text-xs leading-5 text-slate-300'>Приєднуйся до Musor Drop</p><a href='https://musor.best' target='_blank' rel='noopener noreferrer' class='mt-3 block w-full rounded-lg bg-emerald-500 px-3 py-2 text-center text-xs font-bold text-slate-950 hover:bg-emerald-400'>Дізнатися більше</a></aside>"
+    ad = ad.replace("Приєднуйся до Musor Drop", "Musor Drop - твой шанс на большой дроп")
     return HTMLResponse(body.replace("</body>", ad + "</body>"), status_code=response.status_code)
 
 @app.middleware("http")
@@ -141,6 +142,7 @@ function addUiPolish(){
     const heading=$('count')?.parentElement;
     const recommendButton=heading?.parentElement?.querySelector("button[onclick='recommend()']");
     let clearButton=$('clear-all');
+    if(recommendButton)recommendButton.classList.toggle('hidden',liked.length===0);
     if(recommendButton&&!clearButton){clearButton=document.createElement('button');clearButton.id='clear-all';clearButton.textContent='Удалить всё';clearButton.className='mr-3 rounded-xl border border-fuchsia-500/50 bg-fuchsia-500/10 px-4 py-2 text-sm font-semibold text-fuchsia-200 hover:bg-fuchsia-500/20';clearButton.onclick=clearAll;recommendButton.parentElement.insertBefore(clearButton,recommendButton);}
     if(clearButton)clearButton.classList.toggle('hidden',liked.length<=3);
     document.querySelectorAll("#liked button[onclick^='removeMovie']").forEach(button=>{button.className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-fuchsia-500/20 text-xl font-bold leading-none text-fuchsia-200 ring-1 ring-fuchsia-400/30 transition hover:bg-fuchsia-500/30';});
